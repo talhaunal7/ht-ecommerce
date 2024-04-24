@@ -2,6 +2,8 @@ package com.haratres.ecommerce.domain;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "product")
 public class Product {
@@ -15,6 +17,12 @@ public class Product {
 
     @Column(name="price")
     private double price;
+
+    private int stock;//todo
+
+    //@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<CartEntry> cartEntries;
+
 
     public Product() {
     }
