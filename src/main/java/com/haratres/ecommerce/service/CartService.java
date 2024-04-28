@@ -13,6 +13,7 @@ import com.haratres.ecommerce.repository.UserRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,36 +40,21 @@ public class CartService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));//TODO write custom exception
 
         User user = AuthUtil.getAuthenticatedUser();
+        Cart cart = Optional
+                .ofNullable(user.getCart())
+                .orElseGet(Cart::new);
 
-        Optional<Cart> optionalCart = Optional.ofNullable(user.getCart());
-
-        Cart cart;
-        if (optionalCart.isPresent()) {
-            cart = optionalCart.get();
-            System.out.println("USER HAVE CART");
-        } else {
-            cart = new Cart();
-            System.out.println("DONT HAVE CART");
-        }
-
-
-        //find the matching cart entry
-        //Optional<CartEntry> cartEntry = Optional.empty();
-        CartEntry cartEntry= new CartEntry();
+        CartEntry cartEntry = new CartEntry();
         boolean isProductPresent = false;
         for (CartEntry ce : cart.getCartEntries()) {
-
-            if (!Objects.isNull(ce.getProduct())) { // cart entry in the cart don't have product
-
+            if (!Objects.isNull(ce.getProduct())) {
                 if (ce.getProduct().getId().equals(product.getId())) {
-                    isProductPresent=true;
-                    cartEntry=ce;// adresini setle
-                    //cartEntry = Optional.of(ce);
+                    isProductPresent = true;
+                    cartEntry = ce;// referansını setle
                     break;
                 }
             }
         }
-
 
         if (isProductPresent) {
             cartEntry.setQuantity(addProductRequest.getQuantity() + cartEntry.getQuantity());
@@ -80,12 +66,29 @@ public class CartService {
         }
         user.setCart(cart);
 
-        //todo check available quantity for the item + stock operations
-
         cartRepository.save(cart);
         cartEntryRepository.save(cartEntry);
         userRepository.save(user);
+        //todo check available quantity for the item + stock operations
+    }
 
+    public void remove(Long productId) {
+        User user = AuthUtil.getAuthenticatedUser();
+        Cart cart = Optional
+                .ofNullable(user.getCart())
+                .orElseThrow(() -> new RuntimeException("cart not found"));
 
+        Optional<CartEntry> cartEntry = cart.getCartEntries().stream()
+                .filter(ce -> !Objects.isNull(ce.getProduct()))
+                .filter(ce -> ce.getProduct().getId().equals(productId))
+                .findFirst();
+
+        if (cartEntry.isEmpty())
+            throw new RuntimeException("matching cart entry not found");
+
+        cart.getCartEntries().remove(cartEntry.get());
+
+        cartEntryRepository.delete(cartEntry.get());
+        cartRepository.save(cart);
     }
 }
