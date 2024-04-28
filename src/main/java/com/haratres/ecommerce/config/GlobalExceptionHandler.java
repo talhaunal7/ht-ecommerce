@@ -30,8 +30,9 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler(RuntimeException.class)
+ @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiError> handleRuntimeException(RuntimeException ex) {
+        System.out.println(ex.getMessage());//TODO ??
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }

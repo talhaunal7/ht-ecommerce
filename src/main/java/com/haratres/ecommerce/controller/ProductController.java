@@ -1,5 +1,6 @@
 package com.haratres.ecommerce.controller;
 
+import com.haratres.ecommerce.config.AuthUtil;
 import com.haratres.ecommerce.controller.request.CreateProductRequest;
 import com.haratres.ecommerce.controller.response.ProductDto;
 import com.haratres.ecommerce.service.ProductService;
