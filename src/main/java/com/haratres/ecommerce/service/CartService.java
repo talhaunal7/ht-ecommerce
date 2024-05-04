@@ -10,10 +10,8 @@ import com.haratres.ecommerce.repository.CartEntryRepository;
 import com.haratres.ecommerce.repository.CartRepository;
 import com.haratres.ecommerce.repository.ProductRepository;
 import com.haratres.ecommerce.repository.UserRepository;
-
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 

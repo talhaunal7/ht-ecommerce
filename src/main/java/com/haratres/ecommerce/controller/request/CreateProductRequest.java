@@ -1,8 +1,13 @@
 package com.haratres.ecommerce.controller.request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CreateProductRequest {
 
+    @NotBlank
     private String name;
+
+    @NotBlank
     private double price;
 
     public String getName() {
