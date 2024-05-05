@@ -47,14 +47,14 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String email, String password, String name, String surname, String phoneNumber, Role role) {
+    public User(Long id, String email, String password, String name, String surname, String phoneNumber) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.role = role;
+        this.role = Role.USER;
     }
 
     @Override

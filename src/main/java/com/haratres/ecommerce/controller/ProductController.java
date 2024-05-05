@@ -30,11 +30,9 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")// TODO
     public ProductDto get(@PathVariable @NotNull Long id){
         return productService.get(id);
     }
-
 
 
 

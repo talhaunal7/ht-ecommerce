@@ -18,10 +18,6 @@ public class Product {
 
     private int stock;//todo
 
-    //@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<CartEntry> cartEntries;
-
-
     public Product() {
     }
 

@@ -16,7 +16,7 @@ public class CartEntry {
     private Product product;
 
     @Column(name="quantity")
-    private int quantity;//todo
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")

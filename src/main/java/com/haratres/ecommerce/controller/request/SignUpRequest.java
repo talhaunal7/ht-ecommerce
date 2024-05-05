@@ -1,7 +1,5 @@
 package com.haratres.ecommerce.controller.request;
 
-import com.haratres.ecommerce.domain.Role;
-
 public class SignUpRequest {
 
 
@@ -10,16 +8,6 @@ public class SignUpRequest {
     private String name;
     private String surname;
     private String phoneNumber;
-    private Role role;
-
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public String getEmail() {
         return email;

@@ -1,5 +1,6 @@
 package com.haratres.ecommerce.config;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -33,6 +34,13 @@ public class GlobalExceptionHandler {
  @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiError> handleRuntimeException(RuntimeException ex) {
         System.out.println(ex.getMessage());//TODO ??
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiError> handleEntityNotFoundException(EntityNotFoundException ex) {
+        System.out.println(ex.getMessage());
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }

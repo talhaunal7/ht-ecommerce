@@ -10,6 +10,7 @@ import com.haratres.ecommerce.repository.CartEntryRepository;
 import com.haratres.ecommerce.repository.CartRepository;
 import com.haratres.ecommerce.repository.ProductRepository;
 import com.haratres.ecommerce.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class CartService {
 
         Product product = productRepository
                 .findById(addProductRequest.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));//TODO write custom exception
+                .orElseThrow(() -> new EntityNotFoundException("product not found"));
 
         User user = AuthUtil.getAuthenticatedUser();
         Cart cart = Optional
@@ -48,7 +49,7 @@ public class CartService {
             if (!Objects.isNull(ce.getProduct())) {
                 if (ce.getProduct().getId().equals(product.getId())) {
                     isProductPresent = true;
-                    cartEntry = ce;// referansını setle
+                    cartEntry = ce;
                     break;
                 }
             }
@@ -67,14 +68,13 @@ public class CartService {
         cartRepository.save(cart);
         cartEntryRepository.save(cartEntry);
         userRepository.save(user);
-        //todo check available quantity for the item + stock operations
     }
 
     public void remove(Long productId) {
         User user = AuthUtil.getAuthenticatedUser();
         Cart cart = Optional
                 .ofNullable(user.getCart())
-                .orElseThrow(() -> new RuntimeException("cart not found"));
+                .orElseThrow(() -> new EntityNotFoundException("cart not found"));
 
         Optional<CartEntry> cartEntry = cart.getCartEntries().stream()
                 .filter(ce -> !Objects.isNull(ce.getProduct()))
@@ -82,7 +82,7 @@ public class CartService {
                 .findFirst();
 
         if (cartEntry.isEmpty())
-            throw new RuntimeException("matching cart entry not found");
+            throw new EntityNotFoundException("matching cart entry not found");
 
         cart.getCartEntries().remove(cartEntry.get());
 

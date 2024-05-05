@@ -33,7 +33,6 @@ public class AuthService {
                 .withName(request.getName())
                 .withSurname(request.getSurname())
                 .withPhoneNumber(request.getPhoneNumber())
-                .withRole(request.getRole())
                 .build();
 
         userRepository.save(user);
