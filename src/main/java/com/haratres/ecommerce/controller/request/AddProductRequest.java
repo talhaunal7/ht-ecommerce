@@ -1,18 +1,14 @@
 package com.haratres.ecommerce.controller.request;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 public class AddProductRequest {
 
-    @NotBlank
+    @Positive
     private Long productId;
 
-    @NotBlank
     @Positive
     private int quantity;
-
 
     public AddProductRequest(Long productId, int quantity) {
         this.productId = productId;

@@ -12,23 +12,15 @@ public class CartEntry {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="product_id", nullable=false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name="quantity")
+    @Column(name = "quantity")
     private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 
     public CartEntry() {
     }
@@ -40,6 +32,14 @@ public class CartEntry {
     public CartEntry(Long id, Product product) {
         this.id = id;
         this.product = product;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public int getQuantity() {
